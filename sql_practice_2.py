@@ -75,30 +75,31 @@ INSERT INTO chocolate_customers(
     ('C17', 67, 'Vietnam');
 
 #INNER JOIN 
-#To examine which was most popular with customers.
+#To examine which was most popular with customers. Create view of result.
 
+CREATE VIEW purchased_product_details AS 
 SELECT eu_chocolate_sales.amount_purchased, chocolate_products.product_name, chocolate_products.product_price
 FROM eu_chocolate_sales INNER JOIN chocolate_products
 ON eu_chocolate_sales.product_code = chocolate_products.product_code;
 
 #RESULT
-product_code | amount_purchased |      product_name      | product_price 
---------------+------------------+------------------------+---------------
- P1           |                2 | chocolate_delice_milk  |             5
- P1           |                1 | chocolate_delice_milk  |             5
- P1           |                1 | chocolate_delice_milk  |             5
- P1           |                2 | chocolate_delice_milk  |             5
- P2           |                5 | chocolate_rabbit_dark  |             2
- P2           |                1 | chocolate_rabbit_dark  |             2
- P2           |                7 | chocolate_rabbit_dark  |             2
- P2           |                1 | chocolate_rabbit_dark  |             2
- P3           |                1 | chocolate_rabbit_white |             2
- P3           |                2 | chocolate_rabbit_white |             2
- P3           |                1 | chocolate_rabbit_white |             2
- P4           |                6 | chocolate_seashell_box |             6
- P4           |                3 | chocolate_seashell_box |             6
- P4           |                1 | chocolate_seashell_box |             6
- P4           |                1 | chocolate_seashell_box |             6
+ amount_purchased |      product_name      | product_price 
+------------------+------------------------+---------------
+                2 | chocolate_delice_milk  |             5
+                1 | chocolate_delice_milk  |             5
+                1 | chocolate_delice_milk  |             5
+                2 | chocolate_delice_milk  |             5
+                5 | chocolate_rabbit_dark  |             2
+                1 | chocolate_rabbit_dark  |             2
+                7 | chocolate_rabbit_dark  |             2
+                1 | chocolate_rabbit_dark  |             2
+                1 | chocolate_rabbit_white |             2
+                2 | chocolate_rabbit_white |             2
+                1 | chocolate_rabbit_white |             2
+                6 | chocolate_seashell_box |             6
+                3 | chocolate_seashell_box |             6
+                1 | chocolate_seashell_box |             6
+                1 | chocolate_seashell_box |             6
 
 
 
@@ -133,9 +134,9 @@ ON eu_chocolate_sales.customer_id = chocolate_customers.customer_id;
                   | Vietnam
                   | Vietnam
 
-#To see which products were and were not purchased in Europe. 
+#To see which products were and were not purchased in Europe, using an alias to change column name.
 #QUERY
-SELECT eu_chocolate_sales.amount_purchased, chocolate_products.product_name 
+SELECT eu_chocolate_sales.amount_purchased AS quantity_purchased, chocolate_products.product_name 
 FROM chocolate_products LEFT JOIN eu_chocolate_sales
 ON eu_chocolate_sales.product_code = chocolate_products.product_code;
 
@@ -223,4 +224,8 @@ ON eu_chocolate_sales.customer_id = chocolate_customers.customer_id;
 
 
 
-
+#RUN QUERIES AGAINST VIEWS.
+SELECT SUM(amount_purchased) AS amount_purchased, product_name
+FROM purchased_product_details
+GROUP BY (product_name)
+ORDER BY (amount_purchased);
